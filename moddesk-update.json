@@ -1,0 +1,9 @@
+{
+  "product": "twitch-moddesk",
+  "version": "1.5.1",
+  "minimum_version": "1.3.0",
+  "minimum_php": "8.2.0",
+  "package_format": 1,
+  "entrypoint": "index.php",
+  "released_at": "2026-07-26"
+}
