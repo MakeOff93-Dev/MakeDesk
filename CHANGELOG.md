@@ -1,5 +1,31 @@
 # Twitch ModDesk – Changelog
 
+## 1.7.0 – Dunkles Redesign und Zwei-Faktor-Authentifizierung
+
+- Die gesamte Oberfläche verwendet jetzt ein ruhiges Dunkelgrau-/Rot-Design statt der bisherigen lila Twitch-Palette.
+- Dashboard-, Modul-, News-, System-, Sicherheits- und Einstellungswidgets besitzen ein gemeinsames Karten-, Abstands- und Tiefensystem.
+- Navigation, Topbar, Formulare, Tabellen, Uploads, Dialoge, Login und Benutzerprofil wurden visuell vereinheitlicht.
+- Smartphone-, Tablet- und Desktopdarstellung wurden mit verbesserten Offcanvas-Menüs, Touch-Zielen, Formularumbrüchen, Tabellenkarten und zusätzlichen kleinen Breakpoints überarbeitet.
+- Neue kontoweise Zwei-Faktor-Authentifizierung mit zeitbasierten Authenticator-Codes (TOTP).
+- Passwort- und Twitch-Anmeldung verlangen bei aktivierter Zwei-Faktor-Authentifizierung denselben zweiten Faktor.
+- TOTP-Schlüssel werden mit dem vorhandenen `APP_KEY` verschlüsselt gespeichert und Einmalcodes gegen Wiederverwendung geschützt.
+- Pro Konto werden zehn einzeln nutzbare Wiederherstellungscodes erzeugt; in MySQL liegen ausschließlich Passwort-Hashes dieser Codes.
+- Wiederherstellungscodes können einmalig kopiert oder gedruckt, sicher erneuert und zusammen mit dem zweiten Faktor deaktiviert werden.
+- Migration `008_two_factor_redesign.sql` ergänzt die Zwei-Faktor-Tabellen und ersetzt ausschließlich unveränderte alte Standardfarben. Bewusst angepasste Designfarben bleiben erhalten.
+
+## 1.6.0 – Benutzerkonten, Einzelrechte und sichere externe Anmeldung
+
+- Neues persönliches Benutzerkonto für Benutzername, Anzeigename, E-Mail, Profilbild und Passwort.
+- Avatare werden als geprüfte PNG-, JPG- oder WebP-Bilder in MySQL gespeichert; in Benutzerlisten und Navigation erscheinen die persönlichen Profilbilder.
+- Passwortänderungen verlangen das bisherige Passwort, erzwingen eine starke Mindestqualität und beenden alle anderen Sitzungen.
+- Jede Panel-Seite und jede verändernde Aktion besitzt ein eigenes, einzeln ein- und ausschaltbares Rollenrecht.
+- Rollen können Rechte pro Kategorie oder vollständig mit „alle an/aus“ schalten; technische Alt-Rechte bleiben unsichtbar und erhalten nur die Update-Kompatibilität.
+- Owner, Administrator, Moderator und Nur Lesen werden mit ihrem bisherigen Zugriffsmuster vorkonfiguriert; die Owner-Rolle behält geschützten Vollzugriff.
+- Auch hochgeladene Zusatzmodule erhalten getrennte Rechte zum Ansehen und Ausführen.
+- Google reCAPTCHA v2 kann den klassischen Passwort-Login schützen; Site-Key und verschlüsselter Secret-Key werden im Panel verwaltet.
+- Twitch kann als zusätzliche Anmeldung aktiviert werden. Jedes Panel-Konto verknüpft sein Twitch-Konto selbst im Benutzerprofil.
+- Twitch-Anmeldetokens werden nur für den einmaligen Profilabruf verwendet, anschließend widerrufen und nicht dauerhaft gespeichert.
+
 ## 1.5.1 – MariaDB-Kompatibilitätsfix
 
 - Die in MariaDB reservierte Spaltenbezeichnung `sensitive` wird in Migration `006_security_backups_roles.sql` und der Rollenabfrage korrekt maskiert.

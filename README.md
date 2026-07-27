@@ -4,7 +4,12 @@ Ein deutschsprachiges Admin- und Moderationspanel für Twitch-Teams. Das Projekt
 
 ## Enthaltene Funktionen
 
-- Geschützter Login mit den Rollen Owner, Admin, Moderator und Nur-Lesen
+- Geschützter Login mit den vorkonfigurierten Rollen Owner, Administrator, Moderator und Nur Lesen
+- Persönliches Benutzerkonto mit Namen, E-Mail, MySQL-Profilbild und sicherer Passwortänderung
+- Kontoweise Zwei-Faktor-Authentifizierung mit TOTP und einmaligen Wiederherstellungscodes
+- Vollständig granulare Einzelrechte für Seiten, Aktionen, Integrationen und Zusatzmodule
+- Optionaler Google-reCAPTCHA-v2-Schutz für den klassischen Login
+- Zusätzlicher Twitch-Login mit kontoweiser Verknüpfung
 - Ideen-Board mit Status, Priorität, Zuständigkeit und Wunschtermin
 - Teamnotizen mit Sichtbarkeit, Tags und Verknüpfung zu Twitch-Usern oder Ideen
 - Geteilte Links und Ressourcen
@@ -29,6 +34,7 @@ Ein deutschsprachiges Admin- und Moderationspanel für Twitch-Teams. Das Projekt
 - Wiederverwendbare Discord-Nachrichtenvorlagen in MySQL
 - SMTP-Testversand mit STARTTLS, direktem SSL/TLS, AUTH LOGIN oder AUTH PLAIN
 - Zustellprotokoll für Discord und E-Mail
+- Ruhiges Dunkelgrau-/Rot-Design mit einheitlichen, tiefen Panel-Widgets
 - Design-Editor für Logo, Farben, Header, Versionsanzeige, Footer und Navigation
 - Änderbare Seitentitel und Zusatztexte je Seite
 - Umschaltbare URL-Rewrites für klassische Query-URLs oder saubere Pfade
@@ -42,7 +48,7 @@ Ein deutschsprachiges Admin- und Moderationspanel für Twitch-Teams. Das Projekt
 - Immer bedienbare Update-Dateiauswahl mit PHP-/ZIP-/Limit-Vorprüfung und sichtbarem Dateinamen
 - Automatische Vollbackups von MySQL, `.env` und Projektdateien vor Updates und Migrationen
 - Backup-Zentrale mit Download, Wiederherstellung und Update-Rollback
-- Datenbankgestützte Rollen und detaillierte Berechtigungen
+- Datenbankgestützte Rollen mit gruppierten, einzeln schaltbaren Berechtigungen
 - Passwortbestätigung für Updates, Migrationen, Rollbacks, Rollen- und Moduländerungen
 - Sicherheitsbereich mit Systemprüfungen, Ereignissen, IP-Sperren und aktiven Sitzungen
 - Direkter Apache-/XAMPP-Einstieg im Projektordner ohne `/public` in der sichtbaren App-Adresse
@@ -140,6 +146,32 @@ Bei Docker kann ein externer Cronjob folgenden Befehl aufrufen:
 docker compose exec -T app php bin/validate-twitch.php
 ```
 
+## Benutzerkonto, Zwei-Faktor, reCAPTCHA und Twitch-Login
+
+Jeder angemeldete Benutzer besitzt unter „Mein Benutzerkonto“ einen eigenen Bereich. Dort lassen sich Benutzername, Anzeigename, E-Mail, Profilbild und Passwort ändern. Profil- und Passwortänderungen verlangen das aktuelle Passwort; nach einer Passwortänderung beendet ModDesk alle weiteren Sitzungen. Avatare werden als geprüfte PNG-, JPG- oder WebP-Datei bis 3 MB in MySQL gespeichert.
+
+Unter „Mein Benutzerkonto → Zwei-Faktor-Schutz“ kann jeder Benutzer einen zeitbasierten Authenticator-Code einrichten. Der angezeigte Einrichtungsschlüssel wird manuell in einer TOTP-kompatiblen Authenticator-App eingetragen und anschließend mit einem sechsstelligen Code bestätigt. Der Schlüssel wird mit `APP_KEY` verschlüsselt in MySQL gespeichert. Danach erzeugt ModDesk zehn einmalig verwendbare Wiederherstellungscodes; serverseitig werden nur deren Passwort-Hashes gespeichert. Bei aktivem Schutz muss sowohl nach einer klassischen Passwortanmeldung als auch nach einer Twitch-Anmeldung ein Authenticator- oder Wiederherstellungscode bestätigt werden.
+
+Für Google reCAPTCHA v2:
+
+1. Einen Schlüssel vom Typ „Ich bin kein Roboter“-Checkbox für den Hostnamen der Installation anlegen.
+2. Unter „Einstellungen → Authentifizierung“ Site-Key und Secret-Key eintragen.
+3. reCAPTCHA aktivieren und speichern. Der Secret-Key wird verschlüsselt gespeichert; die Prüfung erfolgt serverseitig bei jedem klassischen Passwort-Login.
+
+Für die Twitch-Anmeldung wird dieselbe Twitch-Anwendung verwendet, aber eine eigene Callback-Adresse. Die unter „Einstellungen → Authentifizierung“ angezeigte Login Redirect-URI muss zusätzlich und exakt in der Twitch Developer Console registriert werden, beispielsweise:
+
+```text
+http://localhost/twitch-moddesk/?page=twitch-login-callback
+```
+
+Danach Twitch-Login aktivieren. Jeder Benutzer verbindet sein persönliches Twitch-Konto nach Bestätigung des aktuellen Passworts einmal unter „Mein Benutzerkonto“. Ein Twitch-Konto kann nur einem aktiven ModDesk-Zugang zugeordnet werden. Der klassische Login bleibt parallel verfügbar; ModDesk verwendet den angeforderten Scope `user:read:email` nur für die Identitätsabfrage und widerruft den kurzzeitig erhaltenen Twitch-Token unmittelbar danach, statt ihn in der Datenbank zu speichern.
+
+## Rollen und Einzelrechte
+
+Die Rollen Owner, Administrator, Moderator und Nur Lesen sind vorinstalliert. Owner besitzt unveränderlichen Vollzugriff. Alle anderen Rollen – auch selbst angelegte – können unter „Rollen & Rechte“ pro Seite und Aktion konfiguriert werden. Dazu gehören getrennte Rechte für Anzeigen, Erstellen, Bearbeiten, Archivieren, Senden, Konfigurieren, Installieren, Rollback, Migrationen, Backups, Sitzungen und IP-Sperren.
+
+Mit „Alle einschalten/ausschalten“ lassen sich sämtliche Rechte einer Rolle setzen; dieselben Schalter stehen auch je Kategorie bereit. Technische Alt-Rechte aus früheren Versionen erscheinen nicht im Editor, werden intern aber so lange mitgeführt, wie alte Handler sie für abwärtskompatible Updates benötigen. Hochgeladene Zusatzmodule erzeugen automatisch je ein Recht zum Ansehen und Ausführen.
+
 ## Kanalinhaber oder Moderator verbinden?
 
 | Funktion | Verbundenes Moderator-Konto | Verbundenes Kanalinhaber-Konto |
@@ -192,7 +224,7 @@ Erwähnungen werden beim Versand absichtlich nicht automatisch aufgelöst. So l�
 
 ## Design- und Inhaltseditor
 
-Der „Design-Editor“ speichert alle Einstellungen in MySQL. Einstellbar sind App-Name, eigenes Rasterlogo, sieben Grundfarben, Headerzeile, Versionsanzeige, Footertext, Beschriftung/Symbol/Reihenfolge/Sichtbarkeit aller Menüpunkte sowie Titel und Zusatztext der einzelnen Seiten.
+Das Grunddesign verwendet eine ruhige dunkle Oberfläche mit roten Akzenten, neutralen Grautönen, konsistenten Karten und abgestimmten Widgets. Der „Design-Editor“ speichert alle Einstellungen in MySQL. Einstellbar sind App-Name, eigenes Rasterlogo, sieben Grundfarben, Headerzeile, Versionsanzeige, Footertext, Beschriftung/Symbol/Reihenfolge/Sichtbarkeit aller Menüpunkte sowie Titel und Zusatztext der einzelnen Seiten.
 
 Logo-Uploads sind auf geprüfte PNG-, JPG- und WebP-Dateien bis 2 MB begrenzt. Frei eingegebenes HTML, JavaScript oder CSS wird nicht ausgeführt; dadurch kann das Design angepasst werden, ohne die Schutzmechanismen des Panels zu umgehen. Das Logo wird als Binärdatensatz in MySQL gespeichert und bleibt dadurch gemeinsam mit dem restlichen ModDesk-Datenbestand erhalten.
 
@@ -204,7 +236,7 @@ Die öffentliche App-URL muss weiterhin den vollständigen Installationspfad ent
 
 ## Module und Zusatzmodule
 
-Owner verwalten unter „Module“ die eingebauten Bereiche News, Ideen, Notizen, Links, Twitch, BanSync, Moderationsfälle, Discord, Team, Design und Audit. Ein deaktiviertes Modul verschwindet aus Navigation und Panel-Routen; seine MySQL-Daten werden nicht gelöscht. Über „Bearbeiten“ gelangt man zu den jeweiligen normalen Einstellungen.
+Entsprechend berechtigte Rollen verwalten unter „Module“ die eingebauten Bereiche News, Ideen, Notizen, Links, Twitch, BanSync, Moderationsfälle, Discord, Team, Design und Audit. Ein deaktiviertes Modul verschwindet aus Navigation und Panel-Routen; seine MySQL-Daten werden nicht gelöscht. Über „Bearbeiten“ gelangt man zu den jeweiligen normalen Einstellungen.
 
 Zusatzmodule werden als ZIP mit einer `module.json` im Paketstamm oder in genau einem gemeinsamen Unterordner hochgeladen. Ein minimales Manifest sieht so aus:
 
@@ -228,6 +260,8 @@ Für eigene Formularaktionen enthält das Formular `csrf_field()` sowie die Feld
 
 Ein PHP-Modul läuft mit denselben Serverrechten wie ModDesk und kann Datenbank sowie entschlüsselte Einstellungen erreichen. Deshalb dürfen ausschließlich selbst erstellte oder vollständig vertrauenswürdige Modul-ZIPs installiert werden.
 
+Jedes installierte Zusatzmodul legt die beiden Einzelrechte „ansehen“ und „verwenden“ an. Bei bereits vorhandenen Modulen übernimmt Migration `007_profiles_auth_permissions.sql` zunächst den bisherigen Zugriff aller Rollen; anschließend können diese Rechte im Rollen-Editor einzeln abgeschaltet werden.
+
 ## SMTP einrichten
 
 Unter „Einstellungen → SMTP-Server“ werden Host, Port, Verschlüsselung, Anmeldemethode, Benutzer, Passwort und Absender hinterlegt. Unterstützt werden:
@@ -246,9 +280,31 @@ Bei Konten mit Zwei-Faktor-Anmeldung wird häufig ein App-Passwort benötigt. Re
 2. Unter „BanSync“ deinen Kanal und den zweiten Kanal, beispielsweise `dragoras07`, hinzufügen.
 3. Auf beiden Kanälen muss das verbundene Konto Moderator oder Broadcaster sein.
 4. „Mod-Rechte prüfen“ ausführen. Falls der Scope `user:read:moderated_channels` fehlt, das Twitch-Konto einmal neu verbinden.
-5. Twitch-Login, Aktion, Begründung und Zielkanäle auswählen und die Sicherheitsabfrage bestätigen.
+5. Twitch-Benutzernamen, Aktion, Begründung und Zielkanäle auswählen und die Sicherheitsabfrage bestätigen.
 
 Jeder Kanal wird einzeln angesprochen. Schlägt ein Kanal fehl, laufen die übrigen ausgewählten Kanäle weiter. Das Ergebnis wird je Kanal mit HTTP-Status und Twitch-Fehlermeldung gespeichert; erfolgreiche Bans werden bei einem späteren Fehler nicht automatisch aufgehoben.
+
+## Upgrade von Version 1.6 auf 1.7
+
+Das vollständige 1.7-ZIP unter „Einstellungen → Updates“ auswählen und installieren. Der Updater erstellt vorher automatisch ein Vollbackup, behält `.env`, MySQL-Daten, Profile, Einstellungen, Branding und eigene Module und führt anschließend `008_two_factor_redesign.sql` aus.
+
+Die Migration ergänzt ausschließlich die Zwei-Faktor-Tabellen. Bei den Designwerten werden nur Farben ersetzt, die noch exakt den alten lila Standardwerten entsprechen; eigene Farbanpassungen bleiben unverändert. Bei einem manuellen Upgrade die Dateien über die vorhandene Installation kopieren, `.env`, `storage/` und eigene `modules/` behalten und danach im Panel alle offenen Migrationen ausführen. Alternativ:
+
+```bat
+C:\xampp\php\php.exe bin\migrate.php
+```
+
+## Upgrade von Version 1.5.1 auf 1.6
+
+Das vollständige 1.6-ZIP unter „Einstellungen → Updates“ auswählen und installieren. Der Updater erstellt vorher automatisch ein Vollbackup, behält `.env`, MySQL-Daten, Profil- und Brandingdaten sowie eigene Module und führt anschließend `007_profiles_auth_permissions.sql` aus.
+
+Bei einer manuellen Aktualisierung die neuen Dateien über die vorhandene Installation kopieren, `.env`, `storage/` und eigene `modules/` behalten und danach als Owner „Einstellungen → System“ öffnen. Dort Migration `007_profiles_auth_permissions.sql` ausführen. Alternativ:
+
+```bat
+C:\xampp\php\php.exe bin\migrate.php
+```
+
+Die Migration ist wiederholbar, solange sie nach einem Verbindungsabbruch noch nicht als abgeschlossen eingetragen wurde. Sie übernimmt die bisherigen Fähigkeiten von Administrator, Moderator, Nur Lesen und eigenen Rollen in die neuen Einzelrechte, ohne Benutzer oder Einstellungen zu ersetzen.
 
 ## Upgrade von Version 1.3 oder 1.4 auf 1.5
 
@@ -308,7 +364,7 @@ Für dieses erste Upgrade auf 1.3 ist der einmalige Konsolenbefehl erforderlich.
 
 ## ZIP-Update-Importer
 
-Der Importer ist ausschließlich für Owner sichtbar und akzeptiert nur ein vollständiges ModDesk-ZIP mit `moddesk-update.json`, passender Produktkennung und einer höheren Versionsnummer. Vor dem Austausch werden das Paket und alle überschriebenen Dateien unter `storage/update-backups` gesichert. `.env`, MySQL-Daten, `storage/`, hochgeladene Zusatzmodule und damit auch das gespeicherte Logo bleiben unverändert; anschließend werden neue Datenbankmigrationen automatisch ausgeführt.
+Der Importer ist nur für Rollen mit den Rechten „Updates ansehen“ und „Updates installieren“ verfügbar und akzeptiert ausschließlich ein vollständiges ModDesk-ZIP mit `moddesk-update.json`, passender Produktkennung und einer höheren Versionsnummer. Vor dem Austausch werden das Paket und alle überschriebenen Dateien unter `storage/update-backups` gesichert. `.env`, MySQL-Daten, `storage/`, hochgeladene Zusatzmodule und damit auch das gespeicherte Logo bleiben unverändert; anschließend werden neue Datenbankmigrationen automatisch ausgeführt.
 
 Falls XAMPP „ZIP fehlt“ meldet, in `C:\xampp\php\php.ini` die Zeile `extension=zip` aktivieren und Apache neu starten. Der Projektordner muss für den Apache-Benutzer beschreibbar sein.
 
@@ -348,6 +404,8 @@ Vorgehen:
 MySQL enthält unter anderem:
 
 - lokale Teamzugänge und datenbankbasierte Sessions
+- Benutzerprofile, geprüfte Profilbilder und verknüpfte Twitch-Identitäten
+- Rollen, granulare Einzelrechte und rollenspezifische Zuweisungen
 - Ideen, Notizen, Links und Moderationsfälle
 - verschlüsselte Twitch-Tokens und ausgewählten Zielkanal
 - Twitch-Profilcache, Moderator- und Ban-Status
