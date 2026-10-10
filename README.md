@@ -41,7 +41,7 @@ dauerhaften Anwendungsdaten sowie Web-Sitzungen in MySQL. <br>
 
 
 [![Tutorial](https://img.shields.io/badge/Tutorial-Wiki-green)](https://github.com/MakeOff93-Dev/MakeDesk/wiki)
-[![Download](https://img.shields.io/badge/Download-1.11.0-blue)](https://github.com/MakeOff93-Dev/MakeDesk/releases)
+[![Download](https://img.shields.io/badge/Download-1.12.2-blue)](https://github.com/MakeOff93-Dev/MakeDesk/releases)
 
 </div>
 
