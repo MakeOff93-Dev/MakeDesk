@@ -1,61 +1,51 @@
-![Alternativtext]([https://media.discordapp.net/attachments/1144919102683615242/1531377850522013857/ChatGPT_Image_27._Juli_2026_21_08_25.png?ex=6aca8d43&is=6ac93bc3&hm=b32271a615a9c06bd49955af390c8ff47fda11d1e4e4e5102575ed9229f93c15&=&format=webp&quality=lossless](https://cdn.discordapp.com/attachments/1144919102683615242/1558274591053582436/Firefly.png?ex=6acad7cd&is=6ac9864d&hm=f081f3279828b75e443c1a187e81e33c3b894795d0cc0b7fbe0386e76da85a77&))
-# ModDesk
 
-Ein deutschsprachiges Admin- und Moderationspanel für Twitch-Teams. Das Projekt läuft ohne PHP-Framework, verwendet PDO und speichert sämtliche dauerhaften Anwendungsdaten sowie Web-Sitzungen in MySQL.
+<div align="center">
+<img src="https://makesworld.de/logo.png" width="600" alt="Beschreibung des Bildes">
+  
+# Twitch ModDesk
 
-## Enthaltene Funktionen
+Ein deutschsprachiges Admin- und Moderationspanel für Twitch-Teams. <br>
+Das Projekt läuft ohne PHP-Framework, verwendet PDO und speichert sämtliche  <br>
+dauerhaften Anwendungsdaten sowie Web-Sitzungen in MySQL. <br>
 
-- Geschützter Login mit den vorkonfigurierten Rollen Owner, Administrator, Moderator und Nur Lesen
-- Persönliches Benutzerkonto mit Namen, E-Mail, MySQL-Profilbild und sicherer Passwortänderung
-- Kontoweise Zwei-Faktor-Authentifizierung mit TOTP und einmaligen Wiederherstellungscodes
-- Vollständig granulare Einzelrechte für Seiten, Aktionen, Integrationen und Zusatzmodule
-- Optionaler Google-reCAPTCHA-v2-Schutz für den klassischen Login
-- Zusätzlicher Twitch-Login mit kontoweiser Verknüpfung
-- Ideen-Board mit Status, Priorität, Zuständigkeit und Wunschtermin
-- Teamnotizen mit Sichtbarkeit, Tags und Verknüpfung zu Twitch-Usern oder Ideen
-- Geteilte Links und Ressourcen
-- Twitch OAuth Authorization Code Flow mit CSRF-State
-- Verschlüsselte Access- und Refresh-Tokens in MySQL
-- Frei wählbarer Zielkanal: Kanalinhaber- oder Moderator-Konto verbinden
-- Twitch-User-Suche und lokaler Profil-Cache
-- Moderator- und Ban-Synchronisierung
-- BanSync für mehrere Zielkanäle mit einem verbundenen Modkonto
-- Kanalweiser Banlog mit Erfolgen, Teilfehlern und Twitch-Fehlermeldungen
-- Verwarnung, Timeout, Ban, Unban, Shield Mode und Chat-Löschung
-- Moderatorrollen hinzufügen/entfernen (Kanalinhaber-Token erforderlich)
-- Blockierte Chatbegriffe verwalten
-- Interne Moderationsfälle mit Schweregrad, Status und Zuständigkeit
-- Zentrales Audit-Protokoll und internes Aktionsjournal
-- Browserbasierter, nach erfolgreicher Einrichtung gesperrter PHP-Installer
-- Zentrale Einstellungsseite für Twitch, Discord und SMTP
-- Discord-Bot mit mehreren Servern, mehreren Channels je Server und mehreren Ziel-Channels pro Ereignis
-- Übernahme erreichbarer Discord-Channels direkt über den gespeicherten Bot
-- Discord-Benachrichtigungen für BanSync, Mod-Aktionen, Ideen und Mod-Fälle
-- Discord Studio mit Live-Versand, visueller Vorschau, Emojis, Farben, Bildern, Icons, Feldern und Footer
-- Wiederverwendbare Discord-Nachrichtenvorlagen in MySQL
-- SMTP-Testversand mit STARTTLS, direktem SSL/TLS, AUTH LOGIN oder AUTH PLAIN
-- Zustellprotokoll für Discord und E-Mail
-- Ruhiges Dunkelgrau-/Rot-Design mit einheitlichen, tiefen Panel-Widgets
-- Design-Editor für Logo, Farben, Header, Versionsanzeige, Footer und Navigation
-- Änderbare Seitentitel und Zusatztexte je Seite
-- Umschaltbare URL-Rewrites für klassische Query-URLs oder saubere Pfade
-- News- und Ankündigungsmodul mit Entwürfen, Veröffentlichungszeitpunkt und Discord-Ausgabe
-- Modulverwaltung zum Aktivieren, Deaktivieren und Bearbeiten eingebauter Funktionen
-- Owner-geschützter Import vertrauenswürdiger PHP-Zusatzmodule als ZIP
-- Panel-Migrator für ausstehende Datenbankmigrationen
-- GitHub-Release-Prüfung mit Updatehinweis, Changelog und Ein-Klick-Installation
-- Versions-Popup mit lokalem und verfügbarem Changelog sowie Versand an Discord
-- Owner-geschützter ZIP-Update-Importer mit Paketprüfung, Dateisicherung und Datenbankmigration
-- Immer bedienbare Update-Dateiauswahl mit PHP-/ZIP-/Limit-Vorprüfung und sichtbarem Dateinamen
-- Automatische Vollbackups von MySQL, `.env` und Projektdateien vor Updates und Migrationen
-- Backup-Zentrale mit Download, Wiederherstellung und Update-Rollback
-- Datenbankgestützte Rollen mit gruppierten, einzeln schaltbaren Berechtigungen
-- Passwortbestätigung für Updates, Migrationen, Rollbacks, Rollen- und Moduländerungen
-- Sicherheitsbereich mit Systemprüfungen, Ereignissen, IP-Sperren und aktiven Sitzungen
-- Direkter Apache-/XAMPP-Einstieg im Projektordner ohne `/public` in der sichtbaren App-Adresse
-- Responsive Oberfläche für Desktop, Tablet und Smartphone
+## 🚀 Features & Funktionen </div>
 
-## Offizielle Twitch-Dokumentation
+<div align="left">
+
+### 🛡️ Moderation
+* **Cross-Kanal BanSync:** Synchronisierte Sperren für mehrere Zielkanäle über ein verbundenes Mod-Konto inklusive kanalweisem Ban-Log.
+* **Sanktions-Werkzeuge:** Vollständige Kontrolle durch Verwarnungen, Timeouts, Bans, Unbans, Shield Mode und Chat-Löschung.
+* **Filter & Rechte:** Komfortable Verwaltung von blockierten Chatbegriffen und Moderatorrollen.
+* **Fall-Management:** Interne Moderationsfälle mit Zuweisung von Schweregrad, Status und Zuständigkeit.
+
+### 💬 Discord-Integration
+* **Multi-Server-Support:** Leistungsstarker Discord-Bot mit Unterstützung für mehrere Server, Kanäle und Ereignisrouten.
+* **Discord Studio:** Visueller Editor für Embeds, Vorlagen, Rollen-Erwähnungen und interaktive Link-Buttons.
+* **Ticketsystem:** Private Support-Kanäle, Kategorisierungen, Ticket-Übernahme und automatisierte Transkripte.
+* **Twitch-Anbindung:** Automatische Live-Benachrichtigungen direkt bei Streamstart.
+* **Stabiler Betrieb:** Dauerhafter Gateway-Worker mit eigener Präsenz und automatischer Wiederverbindung.
+
+### 👥 Team & Inhalte
+* **Kollaboration:** Integriertes Ideen-Board, Teamnotizen, geteilte Links und News-Bereich mit Zeitplanung.
+* **Rechte-System:** Granulare Rollenverteilung mit einzeln schaltbaren Rechten für jede Seite und Aktion.
+* **Content Management:** Eigene WYSIWYG-Seiten, flexibler Menü-Builder, Design-Editor und Verwaltung dieser Website.
+
+### ⚙️ Betrieb & Wartung
+* **Setup & Migration:** Komfortabler Browser-Installer, Panel-Migrator und ZIP-Update-Importer.
+* **Datensicherheit:** Automatische Vollbackups vor jedem Update inklusive sicherer Rollback-Funktion.
+* **Updates:** Automatische GitHub-Release-Prüfung mit bequemem Ein-Klick-Update.
+</div>
+
+<br>
+<div align="center">
+
+
+[![Tutorial](https://img.shields.io/badge/Tutorial-Docs-green)](https://github.com/MakeOff93-Dev/MakeDesk/wiki)
+[![Download](https://img.shields.io/badge/Download-1.11.0-blue)](https://github.com/MakeOff93-Dev/MakeDesk/releases)
+
+</div>
+
+### Offizielle Twitch-Dokumentation
 
 - [OAuth Access Tokens](https://dev.twitch.tv/docs/authentication/getting-tokens-oauth/)
 - [Token-Validierung](https://dev.twitch.tv/docs/authentication/validate-tokens/)
@@ -73,3 +63,4 @@ Ein deutschsprachiges Admin- und Moderationspanel für Twitch-Teams. Das Projekt
 - [REST API – Releases](https://docs.github.com/en/rest/releases/releases)
 - [REST API – Release Assets](https://docs.github.com/en/rest/releases/assets)
 - [Authentifizierung der REST API](https://docs.github.com/en/rest/authentication/authenticating-to-the-rest-api)
+
