@@ -1,4 +1,4 @@
-![Alternativtext](https://media.discordapp.net/attachments/1144919102683615242/1531377850522013857/ChatGPT_Image_27._Juli_2026_21_08_25.png?ex=6aca8d43&is=6ac93bc3&hm=b32271a615a9c06bd49955af390c8ff47fda11d1e4e4e5102575ed9229f93c15&=&format=webp&quality=lossless)
+![Alternativtext]([https://media.discordapp.net/attachments/1144919102683615242/1531377850522013857/ChatGPT_Image_27._Juli_2026_21_08_25.png?ex=6aca8d43&is=6ac93bc3&hm=b32271a615a9c06bd49955af390c8ff47fda11d1e4e4e5102575ed9229f93c15&=&format=webp&quality=lossless](https://cdn.discordapp.com/attachments/1144919102683615242/1558274591053582436/Firefly.png?ex=6acad7cd&is=6ac9864d&hm=f081f3279828b75e443c1a187e81e33c3b894795d0cc0b7fbe0386e76da85a77&))
 # ModDesk
 
 Ein deutschsprachiges Admin- und Moderationspanel für Twitch-Teams. Das Projekt läuft ohne PHP-Framework, verwendet PDO und speichert sämtliche dauerhaften Anwendungsdaten sowie Web-Sitzungen in MySQL.
